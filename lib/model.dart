@@ -8,4 +8,8 @@ class ChatMessage {
     required this.text,
     required this.chatMessageType,
   });
+
+  
 }
+
+
