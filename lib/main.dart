@@ -32,10 +32,18 @@ class _ChatPageState extends State<ChatPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          
+          toolbarHeight: 100,
+          title:  const Padding(padding:
+          EdgeInsets.all(8.0)
+          ,
+          child: Text("Chat GPT",
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          ),
+          ),
         )
         
         ,)
-    )
+    );
   }
 }
