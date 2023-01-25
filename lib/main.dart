@@ -97,4 +97,22 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }    
+
+  Widget _buildSubmit() {
+    return Visibility(
+      visible: !isLoading,
+      child: Container(
+        //icon
+        child: IconButton(
+          icon: const Icon(
+            Icons.send_rounded,
+            color: Color.fromARGB(255, 207, 207, 207),
+          ),
+          onPressed: () async {},
+                  ),
+                )
+                
+              
+      );
+  }
         
