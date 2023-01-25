@@ -31,6 +31,9 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late bool isLoading;
   final _textController = TextEditingController();
+  final _scrollController = ScrollController();
+  final List<ChatMessage> _messages = [];
+
   @override 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,8 +81,9 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
-  }}
- Expanded _buildInput() {
+  }
+  
+  Expanded _buildInput() {
     return Expanded(
       child: TextField(
         textCapitalization: TextCapitalization.sentences,
@@ -97,7 +101,8 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }    
-
+  
+  
   Widget _buildSubmit() {
     return Visibility(
       visible: !isLoading,
@@ -115,4 +120,23 @@ class _ChatPageState extends State<ChatPage> {
               
       );
   }
+ 
+
+  
+
+       ListView _buildList() {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _messages.length,
+      itemBuilder: (context, index) {
+        var message = _messages[index];
+        return ChatMessageWidget(
+          text: message.text,
+          chatMessageType: message.chatMessageType,
+        );
+      },
+    );
+  }   
+  }
+   
         
