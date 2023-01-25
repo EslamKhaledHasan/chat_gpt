@@ -172,6 +172,7 @@ class ChatMessageWidget extends StatelessWidget {
                   ),
                 )
               : Container(
+                
                   margin: const EdgeInsets.only(right: 16.0),
                   child: const CircleAvatar(
                     child: Icon(
