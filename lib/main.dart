@@ -34,7 +34,7 @@ class ChatPage extends StatefulWidget {
 
 //future
 Future<String> generateResponse(String prompt) async {
-  final apiKey = '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';
+  final apiKey = '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';
 
   var url = Uri.https("api.openai.com", "/v1/completions");
   final response = await http.post(
@@ -61,7 +61,7 @@ Future<String> generateResponse(String prompt) async {
 
 
 class _ChatPageState extends State<ChatPage> {
-  
+
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
