@@ -41,8 +41,15 @@ class _ChatPageState extends State<ChatPage> {
           textAlign: TextAlign.center,
           ),
           ),
-        )
-        
+          backgroundColor: backgroundColor,
+        ),
+        backgroundColor: backgroundColor,
+        body: Column(
+          
+          children: [
+
+
+        ])
         ,)
     );
   }
