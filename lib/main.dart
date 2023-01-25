@@ -44,9 +44,38 @@ class _ChatPageState extends State<ChatPage> {
           backgroundColor: backgroundColor,
         ),
         backgroundColor: backgroundColor,
-        body: Column(
-          
+        body: Column(children: [
+
+          SafeArea(
+        child: Column(
           children: [
+            Expanded(
+              child: _buildList(),
+            ),
+            Visibility(
+              visible: isLoading,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  //textfield
+                  _buildInput(),
+                  //button
+                  _buildSubmit(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
 
 
         ])
