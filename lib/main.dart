@@ -27,6 +27,19 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
+Future<String> generateResponse(String prompt) async {
+  final apiKey = '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';
+
+  var url = Uri.https("api.openai.com", "/v1/completions");
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $apiKey'
+    },
+    
+  );
+}
 
 
 class _ChatPageState extends State<ChatPage> {
