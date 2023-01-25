@@ -26,27 +26,29 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  @override 
-  Widget build(BuildContext context){
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          title:  const Padding(padding:
-          EdgeInsets.all(8.0)
-          ,
-          child: Text("Chat GPT",
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          ),
-          ),
-          backgroundColor: backgroundColor,
-        ),
-        backgroundColor: backgroundColor,
-        body: Column(children: [
 
-          SafeArea(
+
+class _ChatPageState extends State<ChatPage> {
+  late bool isLoading;
+  final _textController = TextEditingController();
+  @override 
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [Icon(Icons.chat)],
+        toolbarHeight: 60,
+        title: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            "AI Chat",
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        backgroundColor: botBackgroundColor,
+      ),
+      backgroundColor: backgroundColor,
+      body: SafeArea(
         child: Column(
           children: [
             Expanded(
@@ -76,10 +78,23 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
-
-
-        ])
-        ,)
+  }}
+ Expanded _buildInput() {
+    return Expanded(
+      child: TextField(
+        textCapitalization: TextCapitalization.sentences,
+        style: const TextStyle(color: Colors.white),
+        controller: _textController,
+        decoration: const InputDecoration(
+          fillColor: botBackgroundColor,
+          filled: true,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+        ),
+      ),
     );
-  }
-}
+  }    
+        
