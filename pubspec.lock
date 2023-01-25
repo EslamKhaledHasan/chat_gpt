@@ -81,6 +81,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
+  json5:
+    dependency: "direct main"
+    description:
+      name: json5
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   lints:
     dependency: transitive
     description:
@@ -95,6 +102,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.12"
+  material:
+    dependency: "direct main"
+    description:
+      name: material
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+2"
   material_color_utilities:
     dependency: transitive
     description:

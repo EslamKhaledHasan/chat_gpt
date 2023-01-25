@@ -1,13 +1,17 @@
-import 'package:chat_gpt/model.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'dart:convert';
+import 'dart:html';
 
-void main(){
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'model.dart';
+
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +21,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 const backgroundColor = Color.fromARGB(255, 66, 68, 68);
 const botBackgroundColor = Color.fromARGB(255, 4, 116, 124);
 
@@ -27,6 +32,7 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
+//future
 Future<String> generateResponse(String prompt) async {
   final apiKey = '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';
 
@@ -37,18 +43,37 @@ Future<String> generateResponse(String prompt) async {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $apiKey'
     },
-    
+    body: jsonEncode({
+      "model": "text-davinci-003",
+      "prompt": prompt,
+      'temperature': 0,
+      'max_tokens': 2000,
+      'top_p': 1,
+      'frequency_penalty': 0.0,
+      'presence_penalty': 0.0,
+    }),
   );
+
+  // Do something with the response
+  Map<String, dynamic> newresponse = jsonDecode(response.body);
+  return newresponse['choices'][0]['text'];
 }
 
 
 class _ChatPageState extends State<ChatPage> {
-  late bool isLoading;
+  
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
+  late bool isLoading;
 
-  @override 
+  @override
+  void initState() {
+    super.initState();
+    isLoading = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +121,54 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-  
+
+//submitbutton
+  Widget _buildSubmit() {
+    return Visibility(
+      visible: !isLoading,
+      child: Container(
+        //icon
+        child: IconButton(
+          icon: const Icon(
+            Icons.send_rounded,
+            color: Color.fromARGB(255, 207, 207, 207),
+          ),
+          onPressed: () async {
+            setState(
+              () {
+                _messages.add(
+                  ChatMessage(
+                    text: _textController.text,
+                    chatMessageType: ChatMessageType.user,
+                  ),
+                );
+                isLoading = true;
+              },
+            );
+            var input = _textController.text;
+            _textController.clear();
+            Future.delayed(const Duration(milliseconds: 50))
+                .then((_) => _scrollDown());
+            generateResponse(input).then((value) {
+              setState(() {
+                isLoading = false;
+                _messages.add(
+                  ChatMessage(
+                    text: value,
+                    chatMessageType: ChatMessageType.bot,
+                  ),
+                );
+              });
+            });
+            _textController.clear();
+            Future.delayed(const Duration(milliseconds: 50))
+                .then((_) => _scrollDown());
+          },
+        ),
+      ),
+    );
+  }
+
   Expanded _buildInput() {
     return Expanded(
       child: TextField(
@@ -114,31 +186,9 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
-  }    
-  
-  
-  Widget _buildSubmit() {
-    return Visibility(
-      visible: !isLoading,
-      child: Container(
-        //icon
-        child: IconButton(
-          icon: const Icon(
-            Icons.send_rounded,
-            color: Color.fromARGB(255, 207, 207, 207),
-          ),
-          onPressed: () async {},
-                  ),
-                )
-                
-              
-      );
   }
- 
 
-  
-
-       ListView _buildList() {
+  ListView _buildList() {
     return ListView.builder(
       controller: _scrollController,
       itemCount: _messages.length,
@@ -150,10 +200,17 @@ class _ChatPageState extends State<ChatPage> {
         );
       },
     );
-  }   
   }
-   
-        
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+}
+
 class ChatMessageWidget extends StatelessWidget {
   final String text;
   final ChatMessageType chatMessageType;
@@ -185,7 +242,6 @@ class ChatMessageWidget extends StatelessWidget {
                   ),
                 )
               : Container(
-                
                   margin: const EdgeInsets.only(right: 16.0),
                   child: const CircleAvatar(
                     child: Icon(
@@ -208,7 +264,6 @@ class ChatMessageWidget extends StatelessWidget {
                         .textTheme
                         .bodyLarge
                         ?.copyWith(color: Colors.white),
-
                   ),
                 ),
               ],
